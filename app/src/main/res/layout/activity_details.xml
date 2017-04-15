@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_fifty"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
 
@@ -23,119 +22,123 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
-
             <ImageView
                 android:id="@+id/img_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
                 android:alpha="0.5"
                 android:background="@color/white"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
-
 
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 
                 />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/img_movie_poster"
-        android:layout_width="@dimen/one_twenty_five"
-        android:layout_height="@dimen/one_fifty"
-        app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="bottom|left|end"
-        android:layout_marginStart="@dimen/twenty"
-        android:layout_marginLeft="@dimen/twenty"
-        android:layout_marginTop="@dimen/one_hundred"
-        android:scaleType="fitXY"
-        />
 
-    <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:paddingBottom="@dimen/ten">
 
-        >
-
-        <TextView
-            android:id="@+id/tv_movie_title"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten"
-            android:layout_marginStart="@dimen/one_seventy_five"
-            android:layout_marginLeft="@dimen/one_seventy_five"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:id="@+id/tv_movie_genres"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_below="@id/tv_movie_title"
-            android:layout_marginStart="@dimen/one_seventy_five"
-            android:layout_marginLeft="@dimen/one_seventy_five"
-            android:layout_marginTop="2dp"
-            />
-
-        <TextView
-            android:id="@+id/tv_movie_ratings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/tv_movie_genres"
-            android:layout_marginStart="@dimen/one_seventy_five"
-            android:layout_marginLeft="@dimen/one_fifty"
-            android:layout_marginTop="@dimen/ten"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="@string/ratings_total"
-            android:layout_below="@id/tv_movie_genres"
-            android:layout_alignBaseline="@+id/tv_movie_ratings"
-            android:layout_toRightOf="@id/tv_movie_ratings"
-            android:layout_marginTop="@dimen/ten"
-            />
-
-        <TextView
-            android:id="@+id/tv_movie_language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/tv_movie_genres"
-            android:layout_toRightOf="@+id/tv_movie_ratings"
-            android:layout_marginLeft="@dimen/seventy"
-            android:layout_marginTop="@dimen/ten"
-            android:textAllCaps="true"
-            />
 
 
-        <TextView
-            android:id="@+id/tv_movie_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:layout_below="@+id/tv_movie_ratings"
-            android:layout_marginRight="@dimen/twenty"
-            android:layout_marginLeft="@dimen/twenty"
-            android:layout_marginTop="@dimen/thirty"
-            />
+            >
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/img_movie_poster"
+                android:layout_width="@dimen/one_twenty_five"
+                android:layout_height="@dimen/one_fifty"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginStart="@dimen/twenty"
+                android:layout_marginTop="@dimen/ten"
+                android:scaleType="fitXY" />
+
+
+            <TextView
+                android:id="@+id/tv_movie_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/one_seventy_five"
+                android:layout_marginStart="@dimen/one_seventy_five"
+                android:layout_marginTop="@dimen/ten"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_movie_genres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_movie_title"
+                android:layout_marginLeft="@dimen/one_seventy_five"
+                android:layout_marginStart="@dimen/one_seventy_five"
+                android:layout_marginTop="2dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_movie_ratings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_movie_genres"
+                android:layout_marginLeft="@dimen/one_fifty"
+                android:layout_marginStart="@dimen/one_seventy_five"
+                android:layout_marginTop="@dimen/ten"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_movie_ratings"
+                android:layout_below="@id/tv_movie_genres"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_toRightOf="@id/tv_movie_ratings"
+                android:text="@string/ratings_total"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_movie_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_movie_genres"
+                android:layout_marginLeft="@dimen/seventy"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_toRightOf="@+id/tv_movie_ratings"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_movie_overview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_movie_poster"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:layout_marginTop="@dimen/ten"
+
+                android:textSize="17sp" />
+
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>
