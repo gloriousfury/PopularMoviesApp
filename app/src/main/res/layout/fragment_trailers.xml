@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue2"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_trailer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/ten"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/one_hundred"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <ProgressBar
+            android:id="@+id/pb_trailer_loader"
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:layout_centerInParent="true"
+            />
+
+
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="@dimen/seventy"
+            android:layout_height="@dimen/seventy"
+            android:src="@drawable/ic_refresh_48dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_grey"
+            android:text="@string/cant_access"
+            android:layout_marginTop="@dimen/five"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/refresh"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+
+</FrameLayout>

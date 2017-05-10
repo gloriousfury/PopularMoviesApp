@@ -2,16 +2,21 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey"
+    android:background="@color/dark_blue1"
+
     >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+
+    <com.example.android.popularmoviesapp.utils.AutofitRecyclerView
+        android:id="@+id/rv_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
-        />
+        android:columnWidth="@dimen/movie_item_width"
 
+        android:clipToPadding="false"
+        >
+
+    </com.example.android.popularmoviesapp.utils.AutofitRecyclerView>
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"

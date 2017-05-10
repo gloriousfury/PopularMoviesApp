@@ -174,5 +174,8 @@
     <dimen name="image_margin_top">52.50dp</dimen>
 
     <dimen name="text_size_smallest">12sp</dimen>
+    <dimen name="insets">1dp</dimen>
+    <dimen name="movie_item_width">150dp</dimen>
+
 
 </resources>

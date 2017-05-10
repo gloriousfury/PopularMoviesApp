@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_twenty_five"
+        android:orientation="vertical"
+        >
+
+
+
+
+            <ImageView
+                android:id="@+id/img_movie_poster"
+                android:layout_width="@dimen/one_twenty_five"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+
+                />
+
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_toRightOf="@id/img_movie_poster"
+            app:cardBackgroundColor="@color/dark_blue1"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_movie_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginRight="@dimen/ten"
+                    android:layout_marginTop="@dimen/five"
+                    android:textSize="14sp"
+
+                    android:textColor="@color/twitter_blue"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_movie_genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginLeft="@dimen/twenty"
+                    android:layout_marginRight="@dimen/ten"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_grey"
+
+                    />
+
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+    </RelativeLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/thirty"-->
+        <!--android:layout_marginBottom="@dimen/five"-->
+        <!--app:layout_anchor="@id/layout_1"-->
+        <!--app:layout_anchorGravity="bottom"-->
+
+        <!--&gt;-->
+
+        <!--<ImageView-->
+
+            <!--android:id="@+id/first_image"-->
+            <!--android:layout_width="@dimen/twenty"-->
+            <!--android:layout_height="@dimen/twenty"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="-10dp"-->
+            <!--android:src="@drawable/circle" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/fifteen"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_toLeftOf="@+id/second_image"-->
+            <!--android:layout_toRightOf="@id/first_image"-->
+            <!--android:background="@drawable/movie_lines"-->
+
+            <!--/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/second_image"-->
+            <!--android:layout_width="@dimen/twenty"-->
+            <!--android:layout_height="@dimen/twenty"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="-10dp"-->
+            <!--android:src="@drawable/circle" />-->
+
+
+    <!--</RelativeLayout>-->
+
+</android.support.design.widget.CoordinatorLayout>

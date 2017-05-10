@@ -1,13 +1,14 @@
 package com.example.android.popularmoviesapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesResultData {
+public class MoviesResultData  {
 
 
 private Integer page;
 
-private List<SingleMovie> results = null;
+private ArrayList<SingleMovie> results = null;
 
 private Integer totalResults;
 
@@ -21,11 +22,11 @@ public void setPage(Integer page) {
 this.page = page;
 }
 
-public List<SingleMovie> getResults() {
+public ArrayList<SingleMovie> getResults() {
 return results;
 }
 
-public void setResults(List<SingleMovie> results) {
+public void setResults(ArrayList<SingleMovie> results) {
 this.results = results;
 }
 

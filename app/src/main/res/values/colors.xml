@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#1B2737</color>
+    <color name="colorPrimaryDark">#151E29</color>
+    <color name="colorAccent">#1D8DEE</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="grey">#4c4c4c</color>
     <color name="light_grey">#d0d0d0</color>
+    <color name="maroon_blue">#0cd7de</color>
+    <color name="dark_blue1">#151E29</color>
+    <color name="dark_blue2">#1B2737</color>
+    <color name="twitter_blue">#1D8DEE</color>
+    <color name="movie_title_color">#73a7ee</color>
+   <color name="movie_rating_color">#8a8a8a</color>
 
 </resources>

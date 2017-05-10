@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue2"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/ten"
+        android:paddingBottom="@dimen/thirty" />
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/one_hundred">
+
+        <ProgressBar
+            android:id="@+id/pb_reviewloader"
+            android:layout_width="@dimen/thirty"
+            android:layout_height="@dimen/thirty"
+            android:layout_centerInParent="true"
+            />
+
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="@dimen/seventy"
+            android:layout_height="@dimen/seventy"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_refresh_48dp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/refresh"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/five"
+            android:text="@string/cant_access"
+            android:textColor="@color/light_grey"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+</FrameLayout>

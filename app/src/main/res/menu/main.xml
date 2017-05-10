@@ -17,6 +17,12 @@
         android:title="Top-Rated Movies"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_favorites"
+        android:orderInCategory="100"
+        android:title="My Favorites"
+        app:showAsAction="never" />
+
 
 
 

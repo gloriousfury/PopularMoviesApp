@@ -24,7 +24,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/two_fifty"
+                android:layout_height="@dimen/one_fifty"
                 android:layout_marginBottom="56dp"
                 >
 
@@ -48,10 +48,10 @@
                     android:id="@+id/tv_movie_title"
                     android:layout_width="@dimen/three_hundred"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:textAlignment="center"
                     android:maxLines="2"
-                    android:layout_above="@+id/tv_movie_language_date"
+
                     android:textColor="@color/white"
                     android:textSize="25sp"
 
@@ -86,17 +86,6 @@
                     android:textSize="12sp" />
 
 
-                <ImageView
-                    android:id="@+id/favorite_view"
-                    android:layout_width="@dimen/thirty"
-                    android:layout_height="@dimen/thirty"
-                    android:layout_alignBottom="@+id/tv_movie_title"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/ic_star_normal_24dp"
-                    android:layout_marginRight="@dimen/twenty_five"
-                    android:visibility="gone"
-
-                    />
                 <TextView
                     android:id="@+id/tv_movie_ratings"
                     android:layout_width="wrap_content"
