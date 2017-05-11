@@ -4,5 +4,5 @@ The app presents the user with a grid arrangement of movie posters upon launch. 
 
 The data will be fetched from www.themoviedb.org using themoviedb API. The API requires an API Key to request data from it, you can request an API Key from themovidb.org if you don't have one already.
 
-Note to reviewer add <string name="movie_db_api_key">/?=api_key=API_KEY</string> to strings.xml
+Note to reviewer, Add api_key in the NetworkUtils Class where  API_KEY = "";
 
