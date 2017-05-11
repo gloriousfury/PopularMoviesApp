@@ -13,18 +13,19 @@ import retrofit2.http.Url;
 
 public interface ApiInterface {
 
-    @GET
-    Call<MoviesResultData> getMovieList(@Url String url);
 
-    @GET
-    Call<TrailerData> getTrailerList(@Url String url);
+    @GET("{id}/videos")
+    Call<TrailerData> getTrailers(@Path("id") String id,
+                                @Query("api_key") String api_key);
 
-    @GET
-    Call<ReviewData> getReviewList(@Url String url);
+    @GET("{id}/reviews")
+    Call<ReviewData> getReviews(@Path("id") String id,
+                                @Query("api_key") String api_key);
+
 
     @GET("movie/{sort_type}")
     Call<MoviesResultData> getMovies(@Path("sort_type") String sort_type,
-                                  @Query("api_key") String api_key,
-                                  @Query("page") String page);
+                                     @Query("api_key") String api_key,
+                                     @Query("page") String page);
 
 }

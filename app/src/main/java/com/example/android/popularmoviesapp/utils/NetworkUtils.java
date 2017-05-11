@@ -8,5 +8,5 @@ public class NetworkUtils {
     public static final String SORT_TOP_RATED = "top_rated";
     public static final String  SORT_FAVORITE = "favorites";
 
-    public static final String API_KEY = "19c74bbbb4523f79afde0756f8174166";
+    public static final String API_KEY = " ";
 }

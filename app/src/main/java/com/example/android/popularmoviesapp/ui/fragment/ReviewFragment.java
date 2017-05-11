@@ -19,6 +19,7 @@ import com.example.android.popularmoviesapp.model.ReviewItem;
 import com.example.android.popularmoviesapp.model.ReviewData;
 import com.example.android.popularmoviesapp.ui.activity.DetailActivity;
 import com.example.android.popularmoviesapp.utils.ApiInterface;
+import com.example.android.popularmoviesapp.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,11 +87,11 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
         refreshImage.setVisibility(View.INVISIBLE);
         errorMessage.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
-        getTrailerList(movieId);
+        getReviewList(movieId);
     }
 
 
-    public void getTrailerList(int id) {
+    public void getReviewList(int id) {
 //        trailerProgressBar.setVisibility(View.VISIBLE);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.themoviedb.org/3/movie/")
@@ -98,9 +99,9 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
                 .build();
 
         ApiInterface request = retrofit.create(ApiInterface.class);
-        String reviewRequestUrl = String.valueOf(id) + "/reviews" + "?api_key=19c74bbbb4523f79afde0756f8174166";
+        String movieId = String.valueOf(id);
 
-        request.getReviewList(reviewRequestUrl).enqueue(new Callback<ReviewData>() {
+        request.getReviews(movieId, NetworkUtils.API_KEY).enqueue(new Callback<ReviewData>() {
             @Override
             public void onResponse(Call<ReviewData> call, Response<ReviewData> response) {
 

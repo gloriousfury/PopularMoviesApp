@@ -15,6 +15,7 @@
  */
 package com.example.android.popularmoviesapp.utils;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -23,9 +24,18 @@ import android.provider.BaseColumns;
  */
 public class MoviesContract {
 
-//  TODO (1) Within WeatherContract, create a public static final class called WeatherEntry that implements BaseColumns
+    public static final String CONTENT_AUTHORITY = "com.example.android.movies";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_FAVORITE_MOVIES = "favorite_movies";
+
 
     public static final class MoviesEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_FAVORITE_MOVIES)
+                .build();
+
+
         public static final String TABLE_NAME = "movies";
         public static final String _ID = "id";
         public static final String COLUMN_TITLE = "title";

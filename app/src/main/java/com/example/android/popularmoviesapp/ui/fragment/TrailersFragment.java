@@ -22,6 +22,7 @@ import com.example.android.popularmoviesapp.model.TrailerData;
 import com.example.android.popularmoviesapp.model.TrailerItem;
 import com.example.android.popularmoviesapp.ui.activity.DetailActivity;
 import com.example.android.popularmoviesapp.utils.ApiInterface;
+import com.example.android.popularmoviesapp.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,9 +104,9 @@ public class TrailersFragment extends Fragment implements View.OnClickListener {
                 .build();
 
         ApiInterface request = retrofit.create(ApiInterface.class);
-        String trailerRequestUrl = String.valueOf(id) + "/videos" + "?api_key=19c74bbbb4523f79afde0756f8174166";
+        String movieId = String.valueOf(id);
 
-        request.getTrailerList(trailerRequestUrl).enqueue(new Callback<TrailerData>() {
+        request.getTrailers(movieId, NetworkUtils.API_KEY).enqueue(new Callback<TrailerData>() {
             @Override
             public void onResponse(Call<TrailerData> call, Response<TrailerData> response) {
 

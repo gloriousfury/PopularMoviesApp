@@ -23,6 +23,12 @@
         <activity
             android:name=".ui.activity.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name=".utils.MoviesProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
+
     </application>
 
 

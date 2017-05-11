@@ -1,10 +1,17 @@
 package com.example.android.popularmoviesapp.ui.activity;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.popularmoviesapp.R;
+import com.example.android.popularmoviesapp.utils.MoviesContract;
 import com.example.android.popularmoviesapp.utils.RecyclerInsetsDecoration;
 import com.example.android.popularmoviesapp.adapter.MoviesAdapter;
 import com.example.android.popularmoviesapp.model.MoviesResultData;
@@ -36,9 +44,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-
+    String TAG ="MainActivity";
     MoviesAdapter moviesAdapter;
     ProgressBar mLoadingIndicator;
     String sortingParameter = "popular";
@@ -46,14 +54,15 @@ public class MainActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
     private static final String LIFECYCLE_MOVIE_CALLBACKS_KEY = "movieList";
     private static final String LIFECYCLE_PAGE_NO_KEY = "page_no";
-    private static final String LIFECYCLE_SORTING_PARAMETER_KEY= "sorting_parameter";
-    private static final String LIFECYCLE_ACTIONBAR_TITLE= "actionbar_title";
+    private static final String LIFECYCLE_SORTING_PARAMETER_KEY = "sorting_parameter";
+    private static final String LIFECYCLE_ACTIONBAR_TITLE = "actionbar_title";
+    private static final int ID_FAVORITE_MOVIE_LOADER = 57;
 
     SQLiteDatabase db;
     AutofitRecyclerView moviesRecyclerView;
     Snackbar snackbar;
     Toast mCurrentToast;
-    String actionBarTitle ="Popular Movies";
+    String actionBarTitle = "Popular Movies";
 
     MoviesDatabaseHelper dbHelper;
     int page_no;
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null || !savedInstanceState.containsKey(LIFECYCLE_MOVIE_CALLBACKS_KEY) ||
                 !savedInstanceState.containsKey(LIFECYCLE_PAGE_NO_KEY) ||
-                !savedInstanceState.containsKey(LIFECYCLE_SORTING_PARAMETER_KEY)||
+                !savedInstanceState.containsKey(LIFECYCLE_SORTING_PARAMETER_KEY) ||
                 !savedInstanceState.containsKey(LIFECYCLE_ACTIONBAR_TITLE)) {
 
             loadMoviesData(sortingParameter);
@@ -130,13 +139,12 @@ public class MainActivity extends AppCompatActivity {
     public void getMoviesList(String sortingParameter) {
         page_no = 1;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.themoviedb.org/3/movie/")
+                .baseUrl("http://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ApiInterface request = retrofit.create(ApiInterface.class);
-        String moviesRequestUrl = sortingParameter + getResources().getString(R.string.movie_db_api_query) + String.valueOf(page_no);
-        request.getMovieList(moviesRequestUrl).enqueue(new Callback<MoviesResultData>() {
+        request.getMovies(sortingParameter, NetworkUtils.API_KEY, String.valueOf(page_no)).enqueue(new Callback<MoviesResultData>() {
             @Override
             public void onResponse(Call<MoviesResultData> call, Response<MoviesResultData> response) {
 
@@ -162,16 +170,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void doLoadMoreMoviesFromServer(String sortingParameter,int page_no) {
+
+    private void doLoadMoreMoviesFromServer(String sortingParameter, int page_no) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.themoviedb.org/3/movie/")
+                .baseUrl("http://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ApiInterface request = retrofit.create(ApiInterface.class);
-        String moviesRequestUrl = sortingParameter + getResources().getString(R.string.movie_db_api_query) + String.valueOf(page_no);
-        request.getMovieList(moviesRequestUrl).enqueue(new Callback<MoviesResultData>() {
+
+
+        request.getMovies(sortingParameter, NetworkUtils.API_KEY, String.valueOf(page_no)).enqueue(new Callback<MoviesResultData>() {
             @Override
             public void onResponse(Call<MoviesResultData> call, Response<MoviesResultData> response) {
 
@@ -179,15 +189,23 @@ public class MainActivity extends AppCompatActivity {
 
                     MoviesResultData data = response.body();
                     movieList = data.getResults();
+
                     updateMovieList(movieList);
+//                    moviesRecyclerView.invalidate();
+//                    moviesAdapter.setMoviesData(movieList);
+
+
+                    showMoviesDataView();
                     Log.d("MainActivity", "loaded from API");
                 } else {
-                    showToast("Error updating feed,check your internet");
+                    showErrorMessage();
+
                 }
             }
 
             @Override
             public void onFailure(Call<MoviesResultData> call, Throwable t) {
+
                 showErrorMessage();
                 Log.d("MainActivity", t.toString());
 
@@ -196,59 +214,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void doLoadMoreMoviesFromServer1(int page_no) {
-//        setLoadingMore(true);
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://api.themoviedb.org/3/movie/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        ApiInterface request = retrofit.create(ApiInterface.class);
-//
-//        request.getMovies(sortingParameter, NetworkUtils.API_KEY, String.valueOf(page_no)).enqueue(new Callback<MoviesResultData>() {
-//            @Override
-//            public void onResponse(Call<MoviesResultData> call, Response<MoviesResultData> response) {
-//
-//                if (response.isSuccessful()) {
-//                    setLoadingMore(false);
-//                    MoviesResultData data = response.body();
-//                    movieList = data.getResults();
-//
-//                    updateMovieList(movieList);
-////                    moviesRecyclerView.invalidate();
-////                    moviesAdapter.setMoviesData(movieList);
-//
-//
-//                    showMoviesDataView();
-//                    Log.d("MainActivity", "loaded from API");
-//                } else {
-//                    showErrorMessage();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MoviesResultData> call, Throwable t) {
-//                setLoadingMore(false);
-//                showErrorMessage();
-//                Log.d("MainActivity", t.toString());
-//
-//            }
-//        });
-//    }
-
-
     private void onLoadMoreData() {
         if (CommonUtils.isNetworkAvailable(this)) {
 
             if (!sortingParameter.contentEquals(NetworkUtils.SORT_FAVORITE)) {
-                doLoadMoreMoviesFromServer(sortingParameter,page_no);
+                doLoadMoreMoviesFromServer(sortingParameter, page_no);
 
             }
         } else
             showToast(getString(R.string.no_network_text));
     }
-
 
 
     private void updateMovieList(ArrayList<SingleMovie> results) {
@@ -289,11 +264,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFavoriteData() {
-        movieList = dbHelper.getAllFavorites();
-        moviesAdapter.setMoviesData(movieList);
-        showMoviesDataView();
-
-
+//        movieList = dbHelper.getAllFavorites();
+//        moviesAdapter.setMoviesData(movieList);
+//        showMoviesDataView();
+        getSupportLoaderManager().initLoader(ID_FAVORITE_MOVIE_LOADER, null, this);
     }
 
 
@@ -317,8 +291,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(LIFECYCLE_MOVIE_CALLBACKS_KEY, movieList);
         outState.putInt(LIFECYCLE_PAGE_NO_KEY, page_no);
-        outState.putString(LIFECYCLE_SORTING_PARAMETER_KEY,sortingParameter);
-        outState.putString(LIFECYCLE_ACTIONBAR_TITLE,actionBarTitle );
+        outState.putString(LIFECYCLE_SORTING_PARAMETER_KEY, sortingParameter);
+        outState.putString(LIFECYCLE_ACTIONBAR_TITLE, actionBarTitle);
         super.onSaveInstanceState(outState);
     }
 
@@ -377,12 +351,97 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public void onListItemClick(int clickedItemIndex) {
-//        SingleMovie movie = movieList.get(clickedItemIndex);
-//
-//        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-//        intent.putExtra("movieItem", movie);
-//        startActivity(intent);
-//    }
-}
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, final Bundle loaderArgs) {
+
+        return new AsyncTaskLoader<Cursor>(this) {
+
+            // Initialize a Cursor, this will hold all the task data
+            Cursor mMovieData = null;
+
+            // onStartLoading() is called when a loader first starts loading data
+            @Override
+            protected void onStartLoading() {
+                if (mMovieData != null) {
+                    // Delivers any previously loaded data immediately
+                    deliverResult(mMovieData);
+                } else {
+                    // Force a new load
+                    forceLoad();
+                }
+            }
+
+            // loadInBackground() performs asynchronous loading of data
+            @Override
+            public Cursor loadInBackground() {
+                // Will implement to load data
+
+                // Query and load all task data in the background; sort by priority
+                // [Hint] use a try/catch block to catch any errors in loading data
+
+                try {
+                    return getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI,
+                            null,
+                            null,
+                            null,
+                            null);
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to asynchronously load data.");
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            // deliverResult sends the result of the load, a Cursor, to the registered listener
+            public void deliverResult(Cursor data) {
+                mMovieData = data;
+                super.deliverResult(data);
+            }
+        };
+
+    }
+
+
+
+
+
+        @Override
+        public void onLoadFinished (Loader <Cursor> loader, Cursor data){
+            ArrayList<SingleMovie> movie_list_from_cursor =new ArrayList<>();
+            if (data!=null) {
+                if (data.moveToFirst()) {
+                    do {
+                        SingleMovie movie = new SingleMovie();
+                        movie.setId(data.getInt((data.getColumnIndex(MoviesContract.MoviesEntry._ID))));
+                        movie.setTitle((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_TITLE))));
+                        movie.setOverview((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_OVERVIEW))));
+                        movie.setVoteAverage((data.getDouble(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_RATING))));
+                        movie.setReleaseDate((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_RELEASE_DATE))));
+                        movie.setId((data.getInt(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_MOVIE_ID))));
+                        movie.setFavorite((data.getInt(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_FAVOURITE))));
+                        movie.setPosterPath((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_POSTER_PATH))));
+                        movie.setBackdropPath((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_BACKGROUND_IMAGE_PATH))));
+                        movie.setOriginalLanguage((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_LANGUAGE))));
+                        movie.setGenreIdStrings((data.getString(data.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_GENRE_ARRAY_STRING))));
+
+                        movie_list_from_cursor.add(movie);
+                    } while (data.moveToNext());
+                }
+                movieList = movie_list_from_cursor;
+                moviesAdapter.setMoviesData(movieList);
+                showMoviesDataView();
+
+            }else{
+                showToast("Cursor is empty");
+
+            }
+        }
+
+        @Override
+        public void onLoaderReset (Loader <Cursor> loader) {
+
+        }
+
+
+    }

@@ -1,8 +1,10 @@
 package com.example.android.popularmoviesapp.ui.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -159,14 +161,19 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.addtofavorites:
                 if (movieIsStored()) {
-                    dbHelper.removeFavorites(movie.getId());
                     fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_normal_24dp));
                     showToast("Removed from favorites");
+                    String stringId = String.valueOf(movie.getId());
+                    String whereClause = MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + "=" + stringId;
+                    Uri moviesUri = MoviesContract.MoviesEntry.CONTENT_URI;
+                    moviesUri = moviesUri.buildUpon().appendPath(stringId).build();
+                    getContentResolver().delete(moviesUri, whereClause, null);
+
 
                 } else {
                     fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_favorite_24dp));
                     showToast("Added to favorites");
-                    dbHelper.addFavorites(movie);
+                    addToFavorites();
 
 
                 }
@@ -176,6 +183,25 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         }
     }
+
+
+    public void addToFavorites() {
+        ContentValues values = new ContentValues();
+        values.put(MoviesContract.MoviesEntry.COLUMN_TITLE, movie.getTitle());
+        values.put(MoviesContract.MoviesEntry.COLUMN_OVERVIEW, movie.getOverview());
+        values.put(MoviesContract.MoviesEntry.COLUMN_POSTER_PATH, movie.getPosterPath());
+        values.put(MoviesContract.MoviesEntry.COLUMN_BACKGROUND_IMAGE_PATH, movie.getBackdropPath());
+        values.put(MoviesContract.MoviesEntry.COLUMN_RATING, movie.getVoteAverage());
+        values.put(MoviesContract.MoviesEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+        values.put(MoviesContract.MoviesEntry.COLUMN_LANGUAGE, movie.getOriginalLanguage());
+        values.put(MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, movie.getId());
+        values.put(MoviesContract.MoviesEntry.COLUMN_GENRE_ARRAY_STRING, movie.getGenreIdStrings());
+        values.put(MoviesContract.MoviesEntry.COLUMN_FAVOURITE, movie.getFavorite());
+
+        getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, values).toString();
+
+    }
+
 
     private boolean movieIsStored() {
         db = dbHelper.getReadableDatabase();

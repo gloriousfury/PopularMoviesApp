@@ -2,9 +2,10 @@
     <string name="app_name">Popular Movies</string>
     <string name="error_message">Error connecting to the Internet</string>
     <string name="ratings_total">/10</string>
+    <!--put in api key here-->
     <string name="movie_db_api_query">/?api_key=19c74bbbb4523f79afde0756f8174166&amp;page=</string>
     <string name="no_network_text">There is no network here, Check Internet</string>
     <string name="cant_access">Can\'t access data without Internet, Reload</string>
-
+    <string name="content_authority">com.example.android.movies</string>
 
 </resources>

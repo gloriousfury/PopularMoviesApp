@@ -61,7 +61,7 @@
                     android:textColor="@color/movie_title_color"
                     android:maxLines="2"
                     android:textSize="14sp"
-                    android:text="La sls l sls lsl ls slsls lsl"
+
                     />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:layout_marginTop="@dimen/five"
                     android:textColor="@color/movie_rating_color"
                     android:textSize="12sp"
-                    android:text="La sls l sls lsl ls slsls lsl"
+
 
                     />
 
